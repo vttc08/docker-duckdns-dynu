@@ -1,0 +1,54 @@
+name: Publish to Docker Hub
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  DOCKER_IMAGE_NAME: vttc08/docker-duckdns-dynu
+  PLATFORMS: linux/amd64,linux/arm64/v8
+
+jobs:
+    build:
+        name: Build Image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup QEMU
+              uses: docker/setup-qemu-action@v2
+              with:
+                platforms: arm,arm64,ppc64le,mips64,s390x
+
+            - name: Setup Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Get timestamp
+              run: |
+                echo "NOW=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
+            - name: Build and push
+              uses: docker/build-push-action@v4
+              with:
+                platforms: ${{ env.PLATFORMS }}
+                tags: vttc08/docker-duckdns-dynu:latest
+                push: true
+                build-args: |
+                    BUILD_DATE=${{ env.NOW }}
+                    VERSION=${{ github.sha }}
+                    ARG DUCKDNS_VERSION=1.0.0
+                    
+            - name: checkout
+              uses: actions/checkout@v2
+
+            - name: Dockerhub description
+              uses: peter-evans/dockerhub-description@v3
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+                repository: ${{ env.DOCKER_IMAGE_NAME }}
