@@ -23,5 +23,5 @@ lsiown -R abc:abc \
 
 # run initial IP update
 exec \
-    s6-setuidgid abc /app/duck.sh \
+    s6-setuidgid abc /app/duck.sh; \
     s6-setuidgid abc /app/dynu.sh
