@@ -7,6 +7,15 @@ if [ -z "${SUBDOMAINS}" ] || [ -z "${TOKEN}" ]; then
     sleep infinity
 fi
 
+#Check if dynu configurations are set
+if [ -z "${DYNU_PASS}" ] && [ -n "${DYNU_PLAINTEXT}" ] ; then
+    DYNU_PASS=$(echo -n "${DYNU_PLAINTEXT}" | md5sum | cut -d ' ' -f 1)
+fi
+
+if [ -z "${DYNU_HOST}" ] || [ -z "${DYNU_PASS}" ]; then
+    echo "Dynu configurations are not set. Only DuckDNS will be supported."
+fi
+
 # permissions
 lsiown -R abc:abc \
     /app \
