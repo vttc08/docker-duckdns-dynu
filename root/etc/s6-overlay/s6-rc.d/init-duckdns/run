@@ -22,6 +22,5 @@ lsiown -R abc:abc \
     /config
 
 # run initial IP update
-exec \
-    s6-setuidgid abc /app/duck.sh; \
-    s6-setuidgid abc /app/dynu.sh
+exec s6-setuidgid abc /app/duck.sh
+exec s6-setuidgid abc /app/dynu.sh
