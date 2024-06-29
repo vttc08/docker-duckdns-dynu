@@ -12,7 +12,6 @@ fi
 
 # Make the request to Dynu, assuming the docker container has the same address as the address you want to change
 RES=$(curl -sS "http://api.dynu.com/nsid/update?myip=10.0.0.0&password=${DYNU_PASS}&hostname=${DYNU_HOST}")
-echo $RES
 case $RES in
     "badauth")
         RESULT="\e[31mauthentication error\e[0m."
