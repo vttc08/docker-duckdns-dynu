@@ -8,7 +8,7 @@ if [ -z "${SUBDOMAINS}" ] || [ -z "${TOKEN}" ]; then
 fi
 
 #Check if dynu configurations are set
-if [ -z "${DYNU_PASS}" ] && [ -n "${DYNU_PLAINTEXT}" ] ; then
+if [ -z "${DYNU_PASS}" ] && [ -n "${DYNU_PLAINTEXT}" ]; then
     DYNU_PASS=$(echo -n "${DYNU_PLAINTEXT}" | md5sum | cut -d ' ' -f 1)
 fi
 
