@@ -18,7 +18,7 @@ MYIP=$(dig +short ch txt whoami.cloudflare -4 @1.1.1.1 | sed 's/"//g')
 echo -e "[Debug] IP address of the server: \e[33m${MYIP}.\e[0m" # yellow
 
 for i in "${!DUCKDNS[@]}"; do
-    digfunc "DuckDNS" "${DUCKDNS[$i]}"
+    digfunc "DuckDNS" "${DUCKDNS[$i]}.duckdns.org"
 done
 
 for i in "${!DYNU[@]}"; do
